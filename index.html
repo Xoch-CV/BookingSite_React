@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Entry point to my App-->
+    <div id="app"></div>
+  
+    <!--React & Babel --> 
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+   <!--Components--> 
+   <!--El orden importa, primero los compoenentes que van a ser usados por app--> 
+   <!--<script src="./js/Button.js" data-plugins="transform-es2015-modules-umd" type="text/babel"></script>--> 
+   <script src="./js/data.js" data-plugins="transform-es2015-modules-umd" type="text/babel"></script>
+   <script src="./js/card.js" data-plugins="transform-es2015-modules-umd" type="text/babel"></script>
+   <script src="./js/cardList.js" data-plugins="transform-es2015-modules-umd" type="text/babel"></script>
+   <script src="./js/select.js" data-plugins="transform-es2015-modules-umd" type="text/babel"></script>
+   <script src="./js/header.js" data-plugins="transform-es2015-modules-umd" type="text/babel"></script>
+   <script src="./js/siteState.js" data-plugins="transform-es2015-modules-umd,transform-object-rest-spread" type="text/babel"></script>
+   <script src="./js/app.js" data-plugins="transform-es2015-modules-umd" type="text/babel"></script>
+</body>
+</html>
