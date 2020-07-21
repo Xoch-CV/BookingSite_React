@@ -1,16 +1,9 @@
-const date = new Date();
-const day = date.getDate();
-const month = date.getMonth() + 1;
-const year = date.getFullYear();
-const fullDate=`${day}-0${month}-${year}`;
-
-const Date = () => 
-
+const Input = (props) => 
 <div>
-<label for="checkin">Check-in</label>
-    <input type="date" id="checkin" name="checkin" 
-        value={fullDate}>
+    <label for={props.name}>{props.title}</label>
+    <input type={props.type}id={props.name} name={props.name}
+            value={props.value} onChange={props.onChange} placeholder={props.placeholder}>
     </input>
 </div>
 
-export default Date;
+export default Input;
