@@ -1,23 +1,19 @@
 import HousingCard from "./card";
 
-import { hotelsData } from "./data";
-
-const CardList = () => (
+const CardList = (props) => (
     <div className="list items">
-      {hotelsData.map(hotel => (
         <HousingCard
-            key={hotel.slug}
-            name={hotel.name}
-            photo={hotel.photo}
-            description={hotel.description} 
-            rooms={hotel.rooms}
-            city={hotel.city}
-            country={hotel.country}
-            price={hotel.price}
-            from={hotel.availabilityFrom}
-            to={hotel.availabilityTo}
+            key={props.slug}
+            name={props.name}
+            photo={props.photo}
+            description={props.description} 
+            rooms={props.rooms}
+            city={props.city}
+            country={props.country}
+            price={props.price}
+            from={props.availabilityFrom}
+            to={props.availabilityTo}
         />
-      ))}
     </div>
   );
 

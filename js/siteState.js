@@ -1,4 +1,5 @@
 import Header from "./header";
+import Date from "./inputDate";
 import Select from "./select";
 import CardList from "./cardList";
 
@@ -14,31 +15,66 @@ class Site extends React.Component {
         super(props);
         this.state = {
             filters: {
+                checkin: fullDate,
+                checkout: fullDate,
                 country:"",
                 price: 0,
                 rooms:0
-            } 
+            },
+            hotels: []
         };
     
     this.handleChange = this.handleChange.bind(this);
+    this.handleHotelsUpdate = this.handleHotelsUpdate.bind(this);
     };
 
-
-    /*handleChange(e) {
-        this.setState({ filters:{[e.target.name]: e.target.value} }),() => console.log(this.state.filters);
-    };*/
-
+    componentDidMount() {
+        this.setState({    
+            filters: {
+                checkin: fullDate,
+                checkout: fullDate,
+                country:"",
+                price: 0,
+                rooms:0
+            },
+            hotels: hotelsData});
+      }
+    
     handleChange(e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        
+        const { hotels } = this.state;
+
         this.setState( prevState => ({
             filters: {
                 ...prevState.filters,
-                [e.target.name]: e.target.value
-            } 
-        }), 
-        () => console.log(this.state.filters)
+                [name]: value
+            }
+        }), () => this.handleHotelsUpdate()
         );
-
     }
+
+    handleHotelsUpdate(e){
+        // const value = e.target.value;
+
+        // const { filter, hotels } = this.state;
+
+        // const hotelsUpdated = hotels.map((hotel, prevState) => {
+        //         if(...prevState.filters !== filters{})
+    // })
+    // const hotelsUpdated = this.state.hotels.map(hotel => {
+    //   if (id === product.id) {
+    //     return { ...product, votes: product.votes + 1 };
+    //   }
+    //   return product;
+    // });
+
+    // this.setState({ products: productsUpdated });
+
+    };
+    
+
 
     render () {
         return (
@@ -47,6 +83,7 @@ class Site extends React.Component {
                     <Header/>
                 </div>
                 <div className = "filters">
+                    <Date/>
                     <Select 
                         name="country"
                         value={this.state.country} 
@@ -67,7 +104,20 @@ class Site extends React.Component {
                         placeholder={"Cualquier tamaño"}/>
                 </div>
                 <div className = "list">
-                    <CardList/>
+                {hotelsData.map(hotel => (
+                    <CardList
+                        key={hotel.slug}
+                        name={hotel.name}
+                        photo={hotel.photo}
+                        description={hotel.description} 
+                        rooms={hotel.rooms}
+                        city={hotel.city}
+                        country={hotel.country}
+                        price={hotel.price}
+                        from={hotel.availabilityFrom}
+                        to={hotel.availabilityTo}
+                    />
+                ))}
                 </div>
             </div>
         );
