@@ -1,5 +1,6 @@
 //import Site from "./site";
-import Site from "./siteState";
+//import Site from "./siteState";
+import Site from "./siteStateComponents";
 
 const App = () => (
     <div>

@@ -25,27 +25,27 @@ class Site extends React.Component {
         super(props);
         this.state = {
             filters:[
-                {type:"date", name:"checkin", title:"Check-In", value:"", placeholder:fullDate },
-                {type:"date", name:"checkout", title:"Check-Out", value:"", placeholder:fullDateAfter },
-                {type:"selector", name:"country", title:"", options:distinctCountries, value:"", placeholder:"Todos los países" },
-                {type:"selector", name:"price", title:"", options:distinctPrice, value:"", placeholder:"Cualquier precio"},
-                {type:"selector", name:"rooms", title:"", options:distinctRooms, value:"", placeholder:"Cualquier tamaño"}
+                {id: "1", type:"date", name:"checkin", title:"Check-In", value:"", placeholder:fullDate },
+                {id: "2", type:"date", name:"checkout", title:"Check-Out", value:"", placeholder:fullDateAfter },
+                {id: "3", type:"selector", name:"country", title:"", options:distinctCountries, value:"", placeholder:"Todos los países" },
+                {id: "4", type:"selector", name:"price", title:"", options:distinctPrice, value:"", placeholder:"Cualquier precio"},
+                {id: "5", type:"selector", name:"rooms", title:"", options:distinctRooms, value:"", placeholder:"Cualquier tamaño"}
             ],
             hotels: []
         };
     
     this.handleChange = this.handleChange.bind(this);
-    //this.handleHotelsUpdate = this.handleHotelsUpdate.bind(this);
+    this.handleHotelsUpdate = this.handleHotelsUpdate.bind(this);
     };
 
     componentDidMount() {
         this.setState({    
             filters:[
-                {type:"date", name:"checkin", title:"Check-In", value:"", placeholder:fullDate },
-                {type:"date", name:"checkout", title:"Check-Out", value:"", placeholder:fullDateAfter },
-                {type:"selector", name:"country", title:"", options:distinctCountries, value:"", placeholder:"Todos los países" },
-                {type:"selector", name:"price", title:"", options:distinctPrice, value:"", placeholder:"Cualquier precio"},
-                {type:"selector", name:"rooms", title:"", options:distinctRooms, value:"", placeholder:"Cualquier tamaño"}
+                {id: "1", type:"date", name:"checkin", title:"Check-In", value:fullDate, placeholder:fullDate },
+                {id: "2", type:"date", name:"checkout", title:"Check-Out", value:fullDateAfter, placeholder:fullDateAfter },
+                {id: "3", type:"selector", name:"country", title:"", options:distinctCountries, value:"", placeholder:"Todos los países" },
+                {id: "4", type:"selector", name:"price", title:"", options:distinctPrice, value:"", placeholder:"Cualquier precio"},
+                {id: "5", type:"selector", name:"rooms", title:"", options:distinctRooms, value:"", placeholder:"Cualquier tamaño"}
             ],
             hotels: hotelsData});
     }
@@ -54,25 +54,47 @@ class Site extends React.Component {
         const name = e.target.name;
         const value = e.target.value;
 
-        // this.setState( prevState => ({
-        //     filters: [
-        //         ...prevState.filters, {[name]: value}
-        //     ]
-        // }))
+        const { filters } = this.state;
+
+        const filtersUpdated = filters.map(filter => {
+          if (filter.name === name) {
+            return { ...filter, value};
+          }
+    
+          return filter;
+        });
+    
+        this.setState({ filters: filtersUpdated }, () => this.handleHotelsUpdate());
     }
+
+    handleHotelsUpdate(e){
+        // const name = e.target.name;
+        // const value = e.target.value;
+        // const { filters, hotels } = this.state;
+
+        // const hotelsUpdated = hotels.filter((hotel, name) => hotel.country === value)
+
+        // //console.log(hotelsUpdated)
+        // this.setState({ hotels: hotelsUpdated  }
+    }  
+
 
     render () {
         const { filters } =this.state;
         return (
             <div>
                 <div className = "header">
-                    <Header/>
+                        <Header
+                            checkin={fullDate}
+                            checkout={fullDateAfter}
+                        />
                 </div>
                 <div className = "filters">
                 {filters.map(filter => {
                     if(filter.type==="date"){
                         return (
                         <Input
+                            key={filter.id}
                             type={filter.type}
                             title={filter.title}
                             name={filter.name}
@@ -83,6 +105,7 @@ class Site extends React.Component {
                     }
                     return (
                         <Select 
+                            key={filter.id}
                             name={filter.name}
                             value={filter.value} 
                             onChange={this.handleChange} 
