@@ -24,9 +24,9 @@ class Site extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            filters:[
-                {id: "1", type:"date", name:"checkin", title:"Check-In", value:"", placeholder:fullDate },
-                {id: "2", type:"date", name:"checkout", title:"Check-Out", value:"", placeholder:fullDateAfter },
+            filters:[           
+                {id: "1", type:"date", name:"checkin", title:"Check-In", value:fullDate, placeholder:fullDate },
+                {id: "2", type:"date", name:"checkout", title:"Check-Out", value:fullDateAfter, placeholder:fullDateAfter },
                 {id: "3", type:"selector", name:"country", title:"", options:distinctCountries, value:"", placeholder:"Todos los países" },
                 {id: "4", type:"selector", name:"price", title:"", options:distinctPrice, value:"", placeholder:"Cualquier precio"},
                 {id: "5", type:"selector", name:"rooms", title:"", options:distinctRooms, value:"", placeholder:"Cualquier tamaño"}
@@ -36,11 +36,16 @@ class Site extends React.Component {
     
     this.handleChange = this.handleChange.bind(this);
     this.handleHotelsUpdate = this.handleHotelsUpdate.bind(this);
+    // this.filterByDate = this.filterByDate.bind(this);
+    this.filterByCountry = this.filterByCountry.bind(this);
+    this.filterByPrice = this.filterByPrice.bind(this);
+    this.filterByRooms = this.filterByRooms.bind(this);
+    
     };
 
     componentDidMount() {
         this.setState({    
-            filters:[
+            filters:[           
                 {id: "1", type:"date", name:"checkin", title:"Check-In", value:fullDate, placeholder:fullDate },
                 {id: "2", type:"date", name:"checkout", title:"Check-Out", value:fullDateAfter, placeholder:fullDateAfter },
                 {id: "3", type:"selector", name:"country", title:"", options:distinctCountries, value:"", placeholder:"Todos los países" },
@@ -54,7 +59,7 @@ class Site extends React.Component {
         const name = e.target.name;
         const value = e.target.value;
 
-        const { filters } = this.state;
+        const { filters, hotels } = this.state;
 
         const filtersUpdated = filters.map(filter => {
           if (filter.name === name) {
@@ -64,20 +69,50 @@ class Site extends React.Component {
           return filter;
         });
     
-        this.setState({ filters: filtersUpdated }, () => this.handleHotelsUpdate());
+        this.setState({ filters: filtersUpdated }, () => this.handleHotelsUpdate(this.state));
     }
 
-    handleHotelsUpdate(e){
-        // const name = e.target.name;
-        // const value = e.target.value;
-        // const { filters, hotels } = this.state;
-
-        // const hotelsUpdated = hotels.filter((hotel, name) => hotel.country === value)
-
-        // //console.log(hotelsUpdated)
-        // this.setState({ hotels: hotelsUpdated  }
-    }  
-
+    handleHotelsUpdate(state){
+        // console.log(state)
+        const {filters, hotels} = state
+        //console.log(filters);
+        
+        const hotelsUpdated = (filters, hotels) => {
+                filters.map(filter => {
+                    if(filter.name === "country" && filter.value !== ""){
+                        return hotels.filter(hotel =>
+                        this.filterByCountry(hotel.country, filter.value))
+                    } 
+                    if(filter.name === "price" && filter.value !== ""){
+                        return hotels.filter(hotel =>
+                        this.filterByPrice(hotel.price, filter.value))
+                    } 
+                    if(filter.name === "rooms" && filter.value !== ""){
+                        return hotels.filter(hotel =>
+                        this.filterByRooms(hotel.rooms, filter.value))
+                    }   
+                })
+                return hotels;  
+        };
+        console.log(hotelsUpdated); 
+    }
+        
+    // filterByDate(hotel,checkin,checkout){}
+    filterByCountry(hotel,country){
+        if(hotel.country==country){
+            return hotel
+        }
+    };
+    filterByPrice(hotel, price){
+        if(hotel.price==price){
+            return hotel
+        }
+    };
+    filterByRooms(hotel, rooms){
+        if(hotel.rooms==rooms){
+            return hotel
+        }
+    };
 
     render () {
         const { filters } =this.state;
